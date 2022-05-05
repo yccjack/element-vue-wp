@@ -13,17 +13,14 @@
           class="input-with-select"
       >
         <template #prepend>
-          <el-select v-model="select" placeholder="Select" style="width: 91px">
+          <el-select v-model="Select" placeholder="Select" style="width: 91px">
             <el-option label="Restaurant" value="1" />
             <el-option label="Order No." value="2" />
             <el-option label="Tel" value="3" />
           </el-select>
         </template>
         <template #append>
-          <el-button type="primary">
-            <el-icon style="vertical-align: middle">
-            </el-icon>
-          </el-button>
+          <el-button :icon="Search" circle />
         </template>
       </el-input>
     </div>
@@ -39,8 +36,9 @@
 </template>
 
 <script>
+import { Search,Select } from '@element-plus/icons-vue'
+
 import axios from "axios";
-import menu from "./menu"
 export default {
   created() {
     this.getUserInfo()
@@ -52,7 +50,10 @@ export default {
     avatar: "https://gschaos.club//wp-content/uploads/2021/06/1d5641c0a89db1_avatar.jpg"
   }),
   components:{
-    menu
+
+  },
+  setup: () => {
+    return { Search,Select };
   },
   methods: {
     toDetail(e) {
@@ -83,7 +84,6 @@ export default {
       });
     },
   },
-  name: "home"
 }
 </script>
 

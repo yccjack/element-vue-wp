@@ -7,6 +7,6 @@ import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 
 const app = createApp(App).use(router).use(ElementPlus)
 app.mount('#app')
-for ([key, component] of Object.entries(ElementPlusIconsVue)) {
-    app.component(key, component)
+for (const [key, value] of Object.entries(ElementPlusIconsVue)) {
+    app.component(key, value)
 }
