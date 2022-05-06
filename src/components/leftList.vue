@@ -34,13 +34,27 @@ export default {
 </script>
 
 <style>
+
+
+.text {
+  font-size: 14px;
+}
+
+.item {
+  margin-bottom: 18px;
+}
 .circle-tips-div {
   font-size: 14px;
   padding: 0;
   text-align: left;
   margin-left: 10px;
 }
-
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0;
+}
 ul, li {
   border: 0;
   font-family: inherit;
@@ -53,18 +67,5 @@ ul, li {
   vertical-align: baseline;
   word-wrap: break-word;
   box-sizing: border-box;
-}
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0;
-}
-.text {
-  font-size: 14px;
-}
-
-.item {
-  margin-bottom: 18px;
 }
 </style>
