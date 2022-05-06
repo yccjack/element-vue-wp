@@ -1,25 +1,24 @@
 <template>
-
   <el-card class="box-card" style="width: 100%;">
     <el-row>
-      <el-col :span="8">
-          <el-col :span="12">
-            <el-avatar shape="square" :size="50" :src="avatar"></el-avatar>
-          </el-col>
-          <el-col :span="12">
-            <div class="circle-content-tip-div">
-              <el-col span="24">
-                <span> 标题</span>
-              </el-col>
-            </div>
-            <div class="circle-content-tip-div">
-              <el-col span="24">
-                <span>  <el-link :underline="false"> 个人信息</el-link></span>
-              </el-col>
-            </div>
-          </el-col>
+      <el-col :lg="8" :sm="24" :xs="24" :md="24" :xl="8">
+        <el-col :span="12">
+          <el-avatar shape="square" :size="50" :src="avatar"></el-avatar>
+        </el-col>
+        <el-col :span="12">
+          <div class="circle-content-tip-div">
+            <el-col span="24">
+              <span> 标题</span>
+            </el-col>
+          </div>
+          <div class="circle-content-tip-div">
+            <el-col span="24">
+              <span>  <el-link :underline="false"> 个人信息</el-link></span>
+            </el-col>
+          </div>
+        </el-col>
       </el-col>
-      <el-col :span="16" >
+      <el-col :span="16" :lg="16" :sm="0" :xs="0" :md="0" :xl="16">
         <el-row style="height: 50px; margin-left: 20%">
           <el-col span="8">
             <el-card>card</el-card>
@@ -64,23 +63,25 @@
           </el-popover>
         </el-col>
 
-        <el-col :span="24"  >
+        <el-col :span="24">
           <el-form ref="ruleFormRef"
                    :model="ruleForm"
                    :rules="rules"
                    class="demo-ruleForm"
                    :size="ruleForm.formSize">
-            <el-form-item  prop="name">
-              <el-input v-model="ruleForm.name" placeholder="标题"/>
+            <el-form-item prop="name">
+              <el-input v-model="ruleForm.name" placeholder="标题" clearable/>
             </el-form-item>
             <el-form-item prop="desc">
-              <el-input v-model="ruleForm.desc" type="textarea" :rows="6" minlength="5" show-word-limit maxlength="800"  resize="none" placeholder="输入你想说的内容"/>
+              <el-input v-model="ruleForm.desc" @input="changeDesc()" type="textarea" :rows="6" minlength="5"
+                        show-word-limit maxlength="800" resize="none" placeholder="输入你想说的内容"/>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="submitForm()"
-              >Create</el-button
+              <el-button :type="ruleForm.subType" @click="submitForm()" v-model="ruleForm.sub" :disabled="ruleForm.disabledSub"
+              >{{ ruleForm.sub }}
+              </el-button
               >
-              <el-button @click="resetForm()">Reset</el-button>
+              <el-button @click="resetForm()" type="primary">清空输入</el-button>
             </el-form-item>
           </el-form>
         </el-col>
@@ -90,10 +91,9 @@
 </template>
 
 <script>
-import { reactive } from 'vue'
+import {reactive} from 'vue'
+
 export default {
-
-
   name: "circleContentTop",
   computed: {
     // 计算属性的 getter
@@ -106,16 +106,14 @@ export default {
       autoClose: 0,
       hidden: false
     },
-    ruleForm :reactive({
+    ruleForm: reactive({
       name: '',
-      region: '',
-      date1: '',
-      date2: '',
       delivery: false,
-      type: [],
-      resource: '',
       desc: '',
       formSize: 300,
+      sub: '少于5字',
+      disabledSub: true,
+      subType: ''
     }),
     id: 1,
     name: "李四",
@@ -150,7 +148,25 @@ export default {
     popoverClick() {
       this.msyPopover.hidden = true;
     },
-    async  submitForm(){
+    async submitForm() {
+
+    },
+    resetForm() {
+      this.ruleForm.name = "";
+      this.ruleForm.desc = "";
+      this.changeDesc();
+    },
+    changeDesc() {
+      if(this.ruleForm.desc.length < 5){
+        this.ruleForm.disabledSub = true;
+        this.ruleForm.sub = '少于5字';
+        this.ruleForm.subType = '';
+      }else {
+        this.ruleForm.disabledSub = false;
+        this.ruleForm.sub = '立即提交';
+        this.ruleForm.subType = 'primary';
+
+      }
 
     }
 
@@ -203,6 +219,7 @@ p {
   font-size: 10px;
   margin-top: 10px;
 }
+
 .msy-popover-pop-link {
   font-size: 15px;
   margin: 5px;

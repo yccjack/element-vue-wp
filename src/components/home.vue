@@ -1,26 +1,22 @@
 <template>
-  <div class="home-content-max-width">
-    <el-container>
+    <el-container class="home-content-max-width">
       <el-header height="64px">
         <menuPage/>
       </el-header>
       <el-main>
-        <el-row>
-          <el-col :span="5">
-
+        <el-row :gutter="10">
+          <el-col :xs="0" :sm="3" :md="3" :lg="5">
           <leftList/>
           </el-col>
-          <el-col :span="13">
+          <el-col  :lg="13" :md="17" :sm="17" :xs="24">
       <midList/>
           </el-col>
-          <el-col :span="6">
+          <el-col :xs="0" :sm="4" :md="4" :lg="6">
 
           </el-col>
         </el-row>
       </el-main>
     </el-container>
-  </div>
-
 </template>
 
 <script>
@@ -80,8 +76,10 @@ export default {
 </script>
 
 <style scoped>
+
 .home-content-max-width{
-  width: 1000px;
+  width: 100%;
+  max-width: 1080px;
   align-content: center;
   margin-left: auto;
   margin-right: auto;

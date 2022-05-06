@@ -1,5 +1,5 @@
 <template>
-<circleContentTop/>
+      <circleContentTop/>
 </template>
 
 <script>
