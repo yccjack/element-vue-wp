@@ -8,9 +8,9 @@
     </template>
     <div class="circle-tips-div">
       <div class="circle-tips-div">
-        <ul v-for="o in 4" :key="o">
+        <ul v-for="o in list" :key="o">
           <li class="text item">
-            <el-link :underline="false">   {{ '列表内容 ' + o }}</el-link>
+            <el-link :underline="false"> {{ o }}</el-link>
           </li>
         </ul>
       </div>
@@ -19,13 +19,15 @@
 </template>
 
 <script>
+
 export default {
-  name: "listOfCircleTips"
+  props: ['list'],
+  name: "listOfCircleTips",
+
 }
 </script>
 
 <style scoped>
-
 
 
 </style>

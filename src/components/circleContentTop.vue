@@ -3,17 +3,17 @@
     <el-row>
       <el-col :lg="8" :sm="24" :xs="24" :md="24" :xl="8">
         <el-col :span="12">
-          <el-avatar shape="square" :size="50" :src="avatar"></el-avatar>
+          <el-avatar shape="square" :size="50" :src="userAvatar"></el-avatar>
         </el-col>
         <el-col :span="12">
           <div class="circle-content-tip-div">
             <el-col span="24">
-              <span> 标题</span>
+              <span >{{userTitle}} </span>
             </el-col>
           </div>
           <div class="circle-content-tip-div">
             <el-col span="24">
-              <span>  <el-link :underline="false"> 个人信息</el-link></span>
+              <span>  <el-link :underline="false" > {{username}}</el-link></span>
             </el-col>
           </div>
         </el-col>
@@ -52,7 +52,7 @@
               <span> 可以选择广场、您加入的圈子或者您创建的圈子 </span>
               <div>
                 <el-button v-for="o in popoverId" :key="o.id" size="small" @click="popoverContentClick(o.id)"
-                           :icon="Search">Search
+                           >Search
                 </el-button>
               </div>
             </div>
@@ -66,7 +66,6 @@
         <el-col :span="24">
           <el-form ref="ruleFormRef"
                    :model="ruleForm"
-                   :rules="rules"
                    class="demo-ruleForm"
                    :size="ruleForm.formSize">
             <el-form-item prop="name">
@@ -76,11 +75,16 @@
               <el-input v-model="ruleForm.desc" @input="changeDesc()" type="textarea" :rows="6" minlength="5"
                         show-word-limit maxlength="800" resize="none" placeholder="输入你想说的内容"/>
             </el-form-item>
-            <el-form-item>
-              <el-button :type="ruleForm.subType" @click="submitForm()" v-model="ruleForm.sub" :disabled="ruleForm.disabledSub"
-              >{{ ruleForm.sub }}
-              </el-button
-              >
+            <el-form-item v-show="uploadAble">
+              <uploadComp/>
+            </el-form-item>
+            <el-form-item >
+              <el-button  @click="uploadPic()" v-model="ruleForm.uploadPic" >
+                {{ ruleForm.uploadPic }}
+              </el-button>
+              <el-button :type="ruleForm.subType" @click="submitForm()" v-model="ruleForm.sub" :disabled="ruleForm.disabledSub">
+                {{ ruleForm.sub }}
+              </el-button>
               <el-button @click="resetForm()" type="primary">清空输入</el-button>
             </el-form-item>
           </el-form>
@@ -92,8 +96,9 @@
 
 <script>
 import {reactive} from 'vue'
-
+import uploadComp from '@/components/uploadComp';
 export default {
+  props:['userTitle','userAvatar','username'],
   name: "circleContentTop",
   computed: {
     // 计算属性的 getter
@@ -101,7 +106,11 @@ export default {
       return this.msyPopover.autoClose > 0 ? 'Yes' : 'No'
     }
   },
+  components:{
+    uploadComp
+  },
   data: () => ({
+    uploadAble: false,
     msyPopover: {
       autoClose: 0,
       hidden: false
@@ -113,7 +122,8 @@ export default {
       formSize: 300,
       sub: '少于5字',
       disabledSub: true,
-      subType: ''
+      subType: '',
+      uploadPic: '上传图片'
     }),
     id: 1,
     name: "李四",
@@ -168,6 +178,9 @@ export default {
 
       }
 
+    },
+    uploadPic(){
+      this.uploadAble=true;
     }
 
   }
@@ -175,13 +188,7 @@ export default {
 </script>
 
 <style scoped>
-.circle-content-tip-div {
-  font-size: 14px;
-  padding: 0;
-  text-align: left;
-  margin-left: 10px;
-  margin-top: 5px;
-}
+
 
 .circle-three-title {
   font-size: 9px;
@@ -198,18 +205,7 @@ p {
   margin-inline-end: 0px;
 }
 
-.circle-desc {
-  font-size: 12px;
-  padding: 10px 20px;
-  position: relative;
-  min-height: 37px;
-  box-sizing: border-box;
-  background-color: #fafafa;
-}
 
-.msy-radius {
-  border-radius: 4px;
-}
 
 .msy-popover span {
   font-size: 10px;

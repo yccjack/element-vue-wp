@@ -4,37 +4,81 @@
             wrap
             :fill-ratio="fillRatio"
             :direction="direction"
-            style="width: 100%" >
-    <listOfCircleTips/>
-    <circleTags/>
+            style="width: 100%">
+    <listOfCircleTips
+        :list="list"/>
+    <circleTags
+    :list="tagList"
+    />
 
   </el-space>
 
 
 </template>
 
-<script >
-import { ref } from 'vue'
+<script>
+import {ref} from 'vue'
 
 import listOfCircleTips from "./listOfCircleTips"
 import circleTags from "./circleTags"
+import axios from "axios";
+
 export default {
+  created() {
+    this.getList();
+    this.getTagList();
+  },
   setup: () => {
     const tabPosition = ref('left');
     const direction = ref('horizontal')
     const fillRatio = ref(30)
-    return { tabPosition,direction,fillRatio };
+    return {tabPosition, direction, fillRatio};
   },
   name: "leftList",
-  components:{
+  components: {
     listOfCircleTips,
     circleTags
+  },
+  data: () => ({
+    list: [],
+    tagList: []
+  }),
+  methods: {
+    getList() {
+      axios.get("./topic.json").then((res) => {
+        this.list = res.data;
+      })
+    },
+    getTagList(){
+      axios.get("./circle.json").then((res) => {
+        this.tagList = res.data;
+      })
+    }
   }
 }
 </script>
 
 <style>
+.circle-desc {
+  font-size: 12px;
+  padding: 10px 20px;
+  position: relative;
+  min-height: 37px;
+  box-sizing: border-box;
+  background-color: #fafafa;
+}
 
+.msy-radius {
+  border-radius: 4px;
+}
+
+.circle-content-tip-div {
+  font-size: 14px;
+  padding: 0;
+  text-align: left;
+  margin-left: 10px;
+  margin-top: 5px;
+}
 
 .text {
   font-size: 14px;
@@ -43,18 +87,21 @@ export default {
 .item {
   margin-bottom: 18px;
 }
+
 .circle-tips-div {
   font-size: 14px;
   padding: 0;
   text-align: left;
   margin-left: 10px;
 }
+
 .card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0;
 }
+
 ul, li {
   border: 0;
   font-family: inherit;

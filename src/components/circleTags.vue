@@ -1,15 +1,15 @@
 <template>
   <el-card class="box-card" style="width: 200px">
     <div class="card-header">
-      <span>标题</span>
+      <span>圈子</span>
     </div>
     <div class="circle-tips-div">
-      <div class="text item" v-for="o in 4" :key="o">
+      <div class="text item" v-for="o in list" :key="o">
         <el-button class="btn">
           <div class="block avatar">
-            <el-avatar shape="square" :size="32" :src="avatar"></el-avatar>
+            <el-avatar shape="square" :size="32" :src="o.avatar"></el-avatar>
           </div>
-          {{ '列表内容 ' + o }}
+          {{ o.introduction }}
         </el-button>
       </div>
     </div>
@@ -18,12 +18,9 @@
 
 <script>
 export default {
+  props:['list'],
   name: "circleTags",
-  data: () => ({
-    id: 1,
-    name: "李四",
-    avatar: "https://gschaos.club//wp-content/uploads/2021/06/1d5641c0a89db1_avatar.jpg"
-  }),
+
 }
 </script>
 

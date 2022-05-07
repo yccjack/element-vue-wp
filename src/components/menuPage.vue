@@ -2,9 +2,8 @@
   <el-menu
       :default-active="activeIndex"
       mode="horizontal"
-      @select="handleSelect"
   >
-    <el-menu-item index="1" @click="toHome('0')">论坛</el-menu-item>
+    <el-menu-item index="1" @click="toChat('0')">论坛</el-menu-item>
     <el-menu-item index="3" @click="toHome('1')">主页</el-menu-item>
     <el-menu-item index="4" @click="toDetail(id)">文章详情</el-menu-item>
     <div class="menu-div-search">
@@ -38,16 +37,12 @@
 <script>
 import { Search,Select } from '@element-plus/icons-vue'
 
-import axios from "axios";
 export default {
-  created() {
-    this.getUserInfo()
-    console.log("调用一次接口")
-  },
+  props: ['avatar'],
+
   data: () => ({
     id: 1,
-    name: "李四",
-    avatar: "https://gschaos.club//wp-content/uploads/2021/06/1d5641c0a89db1_avatar.jpg"
+    activeIndex:3
   }),
   components:{
 
@@ -60,12 +55,6 @@ export default {
       this.$router.push({
         path: `/details/${e}`,
       });
-    },
-    getUserInfo(){
-      axios.get("./user.json").then((res)=>{
-        this.avatar=res.data.avatar;
-        this.id = res.data.id
-      })
     },
     toHome(e) {
       if ("1" === e) {
