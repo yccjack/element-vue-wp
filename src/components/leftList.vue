@@ -14,6 +14,7 @@
         <div style="margin-top: 15px">
         <circleTags
             :list="tagList"
+            @tagClick="receiveMessage"
         />
         </div>
       </el-col>
@@ -36,11 +37,15 @@ export default {
     this.getTagList();
   },
   setup: () => {
+    const receiveMessage=(data)=>{
+      console.log(data);
+    }
     const tabPosition = ref('left');
     const direction = ref('horizontal')
     const fillRatio = ref(30)
-    return {tabPosition, direction, fillRatio};
+    return {tabPosition, direction, fillRatio,receiveMessage};
   },
+
   name: "leftList",
   components: {
     listOfCircleTips,
@@ -60,7 +65,8 @@ export default {
       axios.get("./circle.json").then((res) => {
         this.tagList = res.data;
       })
-    }
+    },
+
   }
 }
 </script>

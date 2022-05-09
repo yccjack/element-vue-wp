@@ -5,7 +5,7 @@
     </div>
     <div class="circle-list-content">
       <div class="text item" v-for="o in list" :key="o">
-        <el-button class="btn">
+        <el-button class="btn" @click="tagClick(o.id)">
           <div class="block avatar">
             <el-avatar shape="square" :size="32" :src="o.avatar"></el-avatar>
           </div>
@@ -20,7 +20,14 @@
 export default {
   props:['list'],
   name: "circleTags",
-
+  setup(props,{emit}){
+   const tagClick=(data)=>{
+     emit('tagClick',data)
+   }
+   return {tagClick}
+  },
+  methods:{
+  }
 }
 </script>
 

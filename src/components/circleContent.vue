@@ -29,7 +29,7 @@
           <el-image style="width: 100px; height: 100px" :src="l" :fit="contain" v-for="l in o.contentPic" :key="l"/>
         </el-col>
         <el-col :span=12>
-          <div>
+          <div style="margin-top: 15px">
             <el-radio-group v-model="radios" size="small">
               <el-radio-button :label="0">
                 <el-icon :size="10">
