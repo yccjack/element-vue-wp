@@ -5,12 +5,19 @@
             :fill-ratio="fillRatio"
             :direction="direction"
             style="width: 100%">
-    <listOfCircleTips
-        :list="list"/>
-    <circleTags
-    :list="tagList"
-    />
-
+    <el-row>
+      <el-col :span=24>
+        <listOfCircleTips
+            :list="list"/>
+      </el-col>
+      <el-col :span=24>
+        <div style="margin-top: 15px">
+        <circleTags
+            :list="tagList"
+        />
+        </div>
+      </el-col>
+    </el-row>
   </el-space>
 
 
@@ -49,7 +56,7 @@ export default {
         this.list = res.data;
       })
     },
-    getTagList(){
+    getTagList() {
       axios.get("./circle.json").then((res) => {
         this.tagList = res.data;
       })
@@ -88,7 +95,7 @@ export default {
   margin-bottom: 18px;
 }
 
-.circle-tips-div {
+.circle-list-content {
   font-size: 14px;
   padding: 0;
   text-align: left;

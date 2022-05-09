@@ -6,9 +6,11 @@
       />
     </el-header>
     <el-main>
-      <el-row :gutter="10">
+      <el-row>
         <el-col :xs="0" :sm="3" :md="3" :lg="5">
-          <leftList/>
+          <div :style="{position: 'absolute',top:bothPosition+'px' }">
+            <leftList/>
+          </div>
         </el-col>
         <el-col :lg="13" :md="17" :sm="17" :xs="24">
           <midList :user-title="user.title"
@@ -17,8 +19,9 @@
           />
         </el-col>
         <el-col :xs="0" :sm="4" :md="4" :lg="6">
-          <userCard/>
-          <msyCard/>
+          <div :style="{position: 'absolute',top:bothPosition+'px' }" class="right-content-outer">
+          <userCard :id="user.id" :avatar="user.avatar"/>
+          </div>
         </el-col>
       </el-row>
     </el-main>
@@ -32,22 +35,39 @@ import leftList from "./leftList"
 import userCard from "./userCard"
 import midList from "@/components/midList";
 import {ref} from 'vue'
-// eslint-disable-next-line no-unused-vars
-const input3 = ref('')
+import {onMounted} from "vue";
 
 export default {
   created() {
     this.getUserInfo()
-    console.log("调用一次接口")
   },
+
+  setup() {
+    const bothPosition = ref(0);
+    const scrollContent = () => {
+      // scrollTop为显示屏顶部与整个文档顶部间的距离
+      let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+      bothPosition.value = scrollTop-80 ;
+      if(scrollTop===0){
+        bothPosition.value = scrollTop ;
+      }
+    }
+    onMounted(() => {
+      window.onscroll = () => {
+        // 监听浏览器/页面滚动条的滚动
+        window.addEventListener("scroll", scrollContent, true);
+      }
+    });
+    return {bothPosition}
+  },
+
   data: () => ({
     user: {
       id: 1,
       name: "",
       avatar: "",
       title: ""
-    }
-
+    },
   }),
   components: {
     menuPage,
@@ -86,6 +106,7 @@ export default {
       });
     },
   },
+
 }
 </script>
 
@@ -106,8 +127,11 @@ export default {
 }
 
 .menu-div-search {
-  margin-left: 100px;
+  margin-left: 10%;
   padding-top: 11px;
-  padding-left: 61px;
+  padding-left: 6%;
+}
+.right-content-outer{
+  width: 250px;
 }
 </style>

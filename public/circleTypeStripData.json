@@ -1,0 +1,26 @@
+[
+  {
+    "name": "广场",
+    "avatar": "https://gschaos.club/wp-content/uploads/bfi_thumb/2021061604432868-scaled-70fcrs3a4s215a50lyi40p178fikuuuk7kfai6u4osg.jpg",
+    "id": 1,
+    "introduction": "这是广场"
+  },
+  {
+    "name": "测试",
+    "avatar": "https://gschaos.club/wp-content/uploads/bfi_thumb/90587971_p1-复制-72wvfhwbqehrc225l31u6o774blbwelb0puqpfqdk00.jpg",
+    "id": 2,
+    "introduction": "这是测试"
+  },
+  {
+    "name": "猪圈",
+    "avatar": "https://gschaos.club/wp-content/uploads/bfi_thumb/2021061604422885-70fcrcfayvgl3s3rtfqbv4zio0bsmkgd9evv68tcwhs.jpg",
+    "id": 3,
+    "introduction": "这是猪圈"
+  },
+  {
+    "name": "你不要过来啊",
+    "avatar": "https://gschaos.club/wp-content/uploads/bfi_thumb/2021061604415945-70fcr4uprti7y96rrngi21wazql46k8b3peod2kl2m8.jpg",
+    "id": 4,
+    "introduction": "你不要过来啊"
+  }
+]

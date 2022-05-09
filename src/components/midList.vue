@@ -1,16 +1,16 @@
 <template>
-  <el-row class="circle-tips-div text item ">
-    <el-col :span="24">
+  <el-row class="circle-mid-outer text item ">
+    <el-col :span=24>
       <circleContentTop
           :user-title="userTitle"
           :user-avatar="userAvatar"
           :username="username"
       />
     </el-col>
-    <el-col :span="24" style="margin-top: 2%">
-      <circleContentMid/>
+    <el-col :span=24 style="margin-top: 2%">
+      <circleContentTypeStrip :strips="strips" :types="types"/>
     </el-col>
-    <el-col :span="24">
+    <el-col :span=24>
       <circleContent/>
     </el-col>
   </el-row>
@@ -20,24 +20,44 @@
 
 <script>
 import circleContentTop from "@/components/circleContentTop";
-import circleContentMid from "@/components/circleContentMid";
+import circleContentTypeStrip from "@/components/circleContentTypeStrip";
 import circleContent from "@/components/circleContent";
 import axios from "axios";
 
 export default {
 
+  created() {
+    this.getTypeStripList();
+  },
   props:['userTitle','userAvatar','username'],
   name: "midList",
-
+  data:()=>({
+    strips:[],
+    types:[]
+  }),
   components: {
     circleContentTop,
-    circleContentMid,
+    circleContentTypeStrip,
     circleContent
   },
-
+  methods:{
+    getTypeStripList() {
+      axios.get("./circleTypeStripData.json").then((res) => {
+        this.strips = res.data;
+      })
+      axios.get("./circleTypeList.json").then((res) => {
+        this.types = res.data;
+      })
+    }
+  }
 }
 </script>
 
 <style scoped>
+.circle-mid-outer {
+  font-size: 14px;
+  padding: 0;
+  text-align: left;
 
+}
 </style>

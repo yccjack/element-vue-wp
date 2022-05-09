@@ -5,65 +5,66 @@
         <el-col :span="12">
           <el-avatar shape="square" :size="50" :src="userAvatar"></el-avatar>
         </el-col>
-        <el-col :span="12">
+        <el-col :span=12>
           <div class="circle-content-tip-div">
-            <el-col span="24">
-              <span >{{userTitle}} </span>
+            <el-col span=24>
+              <span>{{ userTitle }} </span>
             </el-col>
           </div>
           <div class="circle-content-tip-div">
-            <el-col span="24">
-              <span>  <el-link :underline="false" > {{username}}</el-link></span>
+            <el-col span=24>
+              <span>  <el-link :underline="false"> {{ username }}</el-link></span>
             </el-col>
           </div>
         </el-col>
       </el-col>
       <el-col :span="16" :lg="16" :sm="0" :xs="0" :md="0" :xl="16">
         <el-row style="height: 50px; margin-left: 20%">
-          <el-col span="8">
+          <el-col :span=8>
             <el-card>card</el-card>
           </el-col>
-          <el-col span="8">
+          <el-col :span=8>
             <el-card>card</el-card>
           </el-col>
-          <el-col span="8">
+          <el-col :span=8>
             <el-card>card</el-card>
           </el-col>
         </el-row>
       </el-col>
     </el-row>
     <p class="circle-desc msy-radius">这是一行提示文字</p>
-    <div class="circle-three-title">
-      <el-row>
-        <el-col span="4" style="padding-top: 6px">
-          <el-avatar :size="20" :src="avatar"></el-avatar>
 
-        </el-col>
-        <span style="margin-top: 6px">在</span>
-        <el-col span="20">
-
-          <el-popover
-              placement="bottom-start"
-              :width="300"
-              trigger="click"
-              :visible="msyPopover.hidden"
-          >
-            <div class="msy-popover">
-              <span> 可以选择广场、您加入的圈子或者您创建的圈子 </span>
-              <div>
-                <el-button v-for="o in popoverId" :key="o.id" size="small" @click="popoverContentClick(o.id)"
-                           >Search
-                </el-button>
+    <div style=" display:inline;">
+      <el-image style="width: 20px; height: 20px" :src="avatar" :fit="fill"/>
+      <b>在</b>
+      <el-popover
+          placement="bottom-start"
+          :width=300
+          trigger="click"
+          :visible="msyPopover.hidden"
+      >
+        <div class="msy-popover">
+          <span> 可以选择广场、您加入的圈子或者您创建的圈子 </span>
+          <div>
+            <el-button v-for="o in popoverId" :key="o.id" @click="popoverContentClick(o.id)">
+              <div class="block avatar">
+                <el-avatar shape="square" :size="17" :src="o.avatar"></el-avatar>
               </div>
-            </div>
+              <span style=" text-align: center;padding-top: 7px"> {{ o.name }}</span>
+            </el-button>
+          </div>
+        </div>
 
-            <template #reference>
-              <el-link type="danger" @click="popoverClick()" class="msy-popover-pop-link"># 广场</el-link>
-            </template>
-          </el-popover>
-        </el-col>
+        <template #reference>
+          <el-link type="danger" @click="popoverClick()" class="msy-popover-pop-link"># 广场</el-link>
+        </template>
+      </el-popover>
+      <b style="margin-bottom: 100px">说：</b>
+    </div>
+    <div class="circle-content-form-title">
 
-        <el-col :span="24">
+      <el-row>
+        <el-col :span=24>
           <el-form ref="ruleFormRef"
                    :model="ruleForm"
                    class="demo-ruleForm"
@@ -78,11 +79,12 @@
             <el-form-item v-show="uploadAble">
               <uploadComp/>
             </el-form-item>
-            <el-form-item >
-              <el-button  @click="uploadPic()" v-model="ruleForm.uploadPic" >
+            <el-form-item>
+              <el-button @click="uploadPic()" v-model="ruleForm.uploadPic">
                 {{ ruleForm.uploadPic }}
               </el-button>
-              <el-button :type="ruleForm.subType" @click="submitForm()" v-model="ruleForm.sub" :disabled="ruleForm.disabledSub">
+              <el-button :type="ruleForm.subType" @click="submitForm()" v-model="ruleForm.sub"
+                         :disabled="ruleForm.disabledSub">
                 {{ ruleForm.sub }}
               </el-button>
               <el-button @click="resetForm()" type="primary">清空输入</el-button>
@@ -97,8 +99,9 @@
 <script>
 import {reactive} from 'vue'
 import uploadComp from '@/components/uploadComp';
+
 export default {
-  props:['userTitle','userAvatar','username'],
+  props: ['userTitle', 'userAvatar', 'username'],
   name: "circleContentTop",
   computed: {
     // 计算属性的 getter
@@ -106,7 +109,7 @@ export default {
       return this.msyPopover.autoClose > 0 ? 'Yes' : 'No'
     }
   },
-  components:{
+  components: {
     uploadComp
   },
   data: () => ({
@@ -119,7 +122,7 @@ export default {
       name: '',
       delivery: false,
       desc: '',
-      formSize: 300,
+      formSize: '300',
       sub: '少于5字',
       disabledSub: true,
       subType: '',
@@ -148,11 +151,7 @@ export default {
     ]
   }),
   methods: {
-    handleChange(value) {
-      console.log(value)
-    },
-    popoverContentClick(value) {
-      console.log(value)
+    popoverContentClick() {
       this.msyPopover.hidden = false;
     },
     popoverClick() {
@@ -167,11 +166,11 @@ export default {
       this.changeDesc();
     },
     changeDesc() {
-      if(this.ruleForm.desc.length < 5){
+      if (this.ruleForm.desc.length < 5) {
         this.ruleForm.disabledSub = true;
         this.ruleForm.sub = '少于5字';
         this.ruleForm.subType = '';
-      }else {
+      } else {
         this.ruleForm.disabledSub = false;
         this.ruleForm.sub = '立即提交';
         this.ruleForm.subType = 'primary';
@@ -179,8 +178,8 @@ export default {
       }
 
     },
-    uploadPic(){
-      this.uploadAble=true;
+    uploadPic() {
+      this.uploadAble = true;
     }
 
   }
@@ -190,7 +189,7 @@ export default {
 <style scoped>
 
 
-.circle-three-title {
+.circle-content-form-title {
   font-size: 9px;
   padding: 0;
   text-align: left;
@@ -204,7 +203,6 @@ p {
   margin-inline-start: 0px;
   margin-inline-end: 0px;
 }
-
 
 
 .msy-popover span {
@@ -221,4 +219,17 @@ p {
   margin: 5px;
 
 }
+
+.align-center {
+  width: 60px;
+  height: 4rem;
+  line-height: 4rem;
+  text-align: center;
+}
+
+.circle-list-in {
+  font-size: 14px;
+}
+
+
 </style>

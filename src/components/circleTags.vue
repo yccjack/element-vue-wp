@@ -3,7 +3,7 @@
     <div class="card-header">
       <span>圈子</span>
     </div>
-    <div class="circle-tips-div">
+    <div class="circle-list-content">
       <div class="text item" v-for="o in list" :key="o">
         <el-button class="btn">
           <div class="block avatar">
