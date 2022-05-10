@@ -67,7 +67,6 @@
         <el-col :span=24>
           <el-form ref="ruleFormRef"
                    :model="ruleForm"
-                   class="demo-ruleForm"
                    :size="ruleForm.formSize">
             <el-form-item prop="name">
               <el-input v-model="ruleForm.name" placeholder="标题" clearable/>
@@ -128,6 +127,7 @@ export default {
       subType: '',
       uploadPic: '上传图片'
     }),
+
     id: 1,
     name: "李四",
     avatar: "https://gschaos.club//wp-content/uploads/2021/06/1d5641c0a89db1_avatar.jpg",
@@ -158,7 +158,10 @@ export default {
       this.msyPopover.hidden = true;
     },
     async submitForm() {
-
+      let formData = new FormData();
+      formData.append("title",this.ruleForm.name)
+      formData.append("content",this.ruleForm.desc)
+      formData.append("pics",this.ruleForm.desc)
     },
     resetForm() {
       this.ruleForm.name = "";
