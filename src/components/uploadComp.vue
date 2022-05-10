@@ -17,22 +17,18 @@
 </template>
 
 <script>
-
 import { ref } from 'vue'
 export default {
   name: "uploadComp",
   data:()=>({
+    fileList:[]
   }),
   methods:{
-
-  },
-  setup(){
-    const fileIds=ref([])
-    const fileList = ref([]);
-    const handleRemove=(UploadFile,  UploadFiles)=>{
-      this.fileList=UploadFiles;
-    }
-    const handleSuccess=(res, file)=>{
+    handleRemove(UploadFile){
+      console.log(UploadFile)
+      console.log(this.fileList)
+    },
+     handleSuccess(res, file){
       console.log('handleSuccessres',res)
       console.log('handleSuccessfile',file)
       if (res) {
@@ -44,7 +40,6 @@ export default {
         alert('视频上传失败，请重新上传！');
       }
     }
-    return {handleRemove,handleSuccess,fileList}
   }
 }
 
