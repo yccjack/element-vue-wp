@@ -10,7 +10,7 @@
       <div class="circle-list-content">
         <ul v-for="o in list" :key="o">
           <li class="text item">
-            <el-link :underline="false"> {{ o }}</el-link>
+            <el-link :underline="false"> {{ o.content }}</el-link>
           </li>
         </ul>
       </div>

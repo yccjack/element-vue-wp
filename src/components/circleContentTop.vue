@@ -99,7 +99,7 @@
 import {reactive} from 'vue'
 import uploadComp from '@/components/uploadComp';
 import axios from "axios";
-
+import { ElMessage } from 'element-plus'
 export default {
   props: ['userTitle', 'userAvatar', 'username'],
   name: "circleContentTop",
@@ -169,7 +169,17 @@ export default {
       formData.append("content", this.ruleForm.desc)
       formData.append("pics", this.fileIds)
       axios.post('http://localhost:5000/saveCircleContent', formData).then((res) => {
-        console.log(res)
+        if(res.status===200){
+          this.resetForm();
+          this.fileList=[];
+          ElMessage({
+            message: '保存成功！',
+            type: 'success',
+          })
+        }else{
+          ElMessage.error('保存失败')
+        }
+
       })
     },
     resetForm() {

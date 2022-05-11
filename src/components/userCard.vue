@@ -67,7 +67,7 @@ export default {
   }),
   methods: {
     getAnnouncement() {
-      axios.get("./announcement.json").then((res) => {
+      axios.get("/config?type=5").then((res) => {
         this.announcement = res.data
       })
     }

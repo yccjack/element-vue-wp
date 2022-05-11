@@ -6,13 +6,13 @@
           <div class="block avatar">
             <el-avatar shape="square" :size="17" :src="o.avatar"></el-avatar>
           </div>
-          {{ o.introduction }}
+          {{ o.content }}
         </el-button>
       </div>
       <el-divider style="margin:4px"/>
       <div class="text">
         <el-button class="btn msy-link-ui" v-for="o in types" :key="o" @click="typeBtnClick(o.id)" >
-          {{ o.name }}
+          {{ o.content }}
         </el-button>
       </div>
     </div>

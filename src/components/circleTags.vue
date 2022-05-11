@@ -9,7 +9,7 @@
           <div class="block avatar">
             <el-avatar shape="square" :size="32" :src="o.avatar"></el-avatar>
           </div>
-          {{ o.introduction }}
+          {{ o.content }}
         </el-button>
       </div>
     </div>

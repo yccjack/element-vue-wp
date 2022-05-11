@@ -26,7 +26,11 @@
         <el-col :span=24>
           <h3>{{ o.contentTitle }}</h3>
           <p>{{ o.content }}</p>
-          <el-image style="width: 100px; height: 100px" :src="l" :fit="contain" v-for="l in o.contentPic" :key="l"/>
+          <el-row>
+            <el-col :span=6 v-for="l in o.contentPic" :key="l">
+              <el-image style="width: 120px; height: 100px" :src="l" :fit="contain"/>
+            </el-col>
+          </el-row>
         </el-col>
         <el-col :span=12>
           <div style="margin-top: 15px">
@@ -35,7 +39,7 @@
                 <el-icon :size="10">
                   <CaretTop/>
                 </el-icon>
-                赞{{ o.like }}
+                赞{{ o.likeCount }}
               </el-radio-button>
               <el-radio-button :label="1">
                 <el-icon :size="10">
@@ -83,23 +87,17 @@ export default {
       "contentPic": [],
       "talk": 0,
       "userAva": "",
-      like: 0
+      "likeCount": 0
     }],
   }),
   methods: {
     popoverClick(id) {
       console.log(id)
     },
-    getContent(id) {
-      if (id === 2) {
-        axios.get("./circleContent" + "_2" + ".json").then((res) => {
-          this.contentList = res.data
-        })
-      } else {
-        axios.get("./circleContent.json").then((res) => {
-          this.contentList = res.data
-        })
-      }
+    getContent(type) {
+      axios.get("/getCircleContent?type=" + type).then((res) => {
+        this.contentList = res.data
+      })
     }
   },
   setup() {
@@ -110,7 +108,6 @@ export default {
     tagChange: {
       immediate: true,
       handler(value) {
-        console.log(value)
         if (this.tagChangeId !== value) {
           this.tagChangeId = value
           this.getContent(2);

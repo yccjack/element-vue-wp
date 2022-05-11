@@ -58,12 +58,14 @@ export default {
   }),
   methods: {
     getList() {
-      axios.get("./topic.json").then((res) => {
+      axios.get("/config?type=1").then((res) => {
+        console.log(res)
         this.list = res.data;
       })
     },
     getTagList() {
-      axios.get("./circle.json").then((res) => {
+      axios.get("/config?type=4").then((res) => {
+        console.log(res)
         this.tagList = res.data;
       })
     },

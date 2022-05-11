@@ -87,7 +87,8 @@ export default {
       });
     },
     getUserInfo() {
-      axios.get("./user.json").then((res) => {
+      axios.get("http://localhost:5000/getUserInfo?id=1").then((res) => {
+        console.log(res)
         this.user.avatar = res.data.avatar;
         this.user.id = res.data.id
         this.user.title = res.data.title

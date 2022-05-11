@@ -12,7 +12,7 @@
     </el-col>
     <el-col :span=24>
       <circleContent
-      :tag-change="tagChange"/>
+          :tag-change="tagChange"/>
     </el-col>
   </el-row>
 
@@ -31,12 +31,12 @@ export default {
     this.getTypeStripList();
     this.getCircleContent();
   },
-  props: ['userTitle', 'userAvatar', 'username','tagChange'],
+  props: ['userTitle', 'userAvatar', 'username', 'tagChange'],
   name: "midList",
   data: () => ({
     strips: [],
     types: [],
-    tagChangeId:0
+    tagChangeId: 0
   }),
   components: {
     circleContentTop,
@@ -45,12 +45,12 @@ export default {
   },
   methods: {
     getTypeStripList() {
-      axios.get("./circleTypeStripData.json").then((res) => {
+      axios.get("/config?type=2").then((res) => {
         this.strips = res.data;
       })
     },
-    getCircleContent(id){
-      axios.get("./circleTypeList.json").then((res) => {
+    getCircleContent(type) {
+      axios.get("/config?type=3" + type).then((res) => {
         this.types = res.data;
       })
     }
