@@ -1,40 +1,44 @@
-<template >
-  <div >
-  <el-upload
-      action="http://localhost:5000/upload"
-      list-type="picture-card"
-      :file-list="fileList"
-      multiple=true
-      name="fileList"
-      :on-remove="handleRemove"
-      :on-success="handleSuccess"
-  >
-    <el-icon>
-      <Plus/>
-    </el-icon>
-  </el-upload>
+<template>
+  <div>
+    <el-upload
+        action="http://localhost:5000/upload"
+        list-type="picture-card"
+        :file-list="fileList"
+        multiple=true
+        name="fileList"
+        :on-remove="handleRemove"
+        :on-success="handleSuccess"
+    >
+      <el-icon>
+        <Plus/>
+      </el-icon>
+    </el-upload>
   </div>
 </template>
 
 <script>
-import { ref } from 'vue'
 export default {
+  props: {
+    fileList: {
+      type: [],
+      default: []
+    }
+  },
+
+
   name: "uploadComp",
-  data:()=>({
-    fileList:[]
-  }),
-  methods:{
-    handleRemove(UploadFile){
-      console.log(UploadFile)
-      console.log(this.fileList)
+  data: () => ({}),
+  methods: {
+    handleRemove(file, fileList) {
+
+      this.$emit('picList', this.fileList)
     },
-     handleSuccess(res, file){
-      console.log('handleSuccessres',res)
-      console.log('handleSuccessfile',file)
+    handleSuccess(res, file) {
       if (res) {
         setTimeout(() => {
+          file.id = res
           alert('上传成功')
-        }, 1500);
+        }, 100);
 
       } else {
         alert('视频上传失败，请重新上传！');

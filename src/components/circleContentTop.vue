@@ -76,7 +76,7 @@
                         show-word-limit maxlength="800" resize="none" placeholder="输入你想说的内容"/>
             </el-form-item>
             <el-form-item v-show="uploadAble">
-              <uploadComp/>
+              <uploadComp :file-list="fileList"/>
             </el-form-item>
             <el-form-item>
               <el-button @click="uploadPic()" v-model="ruleForm.uploadPic">
@@ -98,6 +98,7 @@
 <script>
 import {reactive} from 'vue'
 import uploadComp from '@/components/uploadComp';
+import axios from "axios";
 
 export default {
   props: ['userTitle', 'userAvatar', 'username'],
@@ -112,6 +113,8 @@ export default {
     uploadComp
   },
   data: () => ({
+    fileIds:[],
+    fileList: [],
     uploadAble: false,
     msyPopover: {
       autoClose: 0,
@@ -157,11 +160,17 @@ export default {
     popoverClick() {
       this.msyPopover.hidden = true;
     },
-    async submitForm() {
+    submitForm() {
       let formData = new FormData();
-      formData.append("title",this.ruleForm.name)
-      formData.append("content",this.ruleForm.desc)
-      formData.append("pics",this.ruleForm.desc)
+      this.fileList.forEach(file => {
+        this.fileIds.push(file.id)
+      }),
+      formData.append("title", this.ruleForm.name)
+      formData.append("content", this.ruleForm.desc)
+      formData.append("pics", this.fileIds)
+      axios.post('http://localhost:5000/saveCircleContent', formData).then((res) => {
+        console.log(res)
+      })
     },
     resetForm() {
       this.ruleForm.name = "";
@@ -179,13 +188,13 @@ export default {
         this.ruleForm.subType = 'primary';
 
       }
-
     },
     uploadPic() {
       this.uploadAble = true;
     }
 
   }
+
 }
 </script>
 

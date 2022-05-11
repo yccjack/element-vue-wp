@@ -63,7 +63,7 @@ export default {
         window.addEventListener("scroll", scrollContent, true);
       }
     });
-    return {bothPosition, receiveMessage,receiveData}
+    return {bothPosition, receiveMessage, receiveData}
   },
 
   data: () => ({
@@ -92,6 +92,7 @@ export default {
         this.user.id = res.data.id
         this.user.title = res.data.title
         this.user.name = res.data.name
+        axios.defaults.headers.common['user_id'] = res.data.id;
       })
     },
     toHome(e) {

@@ -3,5 +3,5 @@ module.exports = defineConfig({
   outputDir: 'dist',
   assetsDir: 'static',
   productionSourceMap: false,
-  lintOnSave: false
+  lintOnSave: false,
 })
