@@ -17,17 +17,18 @@
 </template>
 
 <script>
+
 export default {
-  props:['list'],
+  props: ['list'],
   name: "circleTags",
-  setup(props,{emit}){
-   const tagClick=(data)=>{
-     emit('tagClick',data)
-   }
-   return {tagClick}
+
+  setup(props, {emit}) {
+    const tagClick = (data) => {
+      emit('tagClick', data)
+    }
+    return {tagClick}
   },
-  methods:{
-  }
+  methods: {}
 }
 </script>
 

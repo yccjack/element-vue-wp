@@ -1,14 +1,14 @@
-<template >
-  <div >
-  <el-upload
-      action="https://jsonplaceholder.typicode.com/posts/"
-      list-type="picture-card"
-
-  >
-    <el-icon>
-      <Plus/>
-    </el-icon>
-  </el-upload>
+<template>
+  <div>
+    <el-upload
+        action="http://localhost:5000/upload"
+        list-type="picture-card"
+        :file-list="fileList"
+    >
+      <el-icon>
+        <Plus/>
+      </el-icon>
+    </el-upload>
   </div>
 </template>
 
@@ -17,7 +17,11 @@
 
 export default {
   name: "uploadComp",
-
+  data() {
+    return {
+      fileList: []
+    };
+  },
 }
 
 </script>

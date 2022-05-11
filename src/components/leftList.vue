@@ -36,9 +36,9 @@ export default {
     this.getList();
     this.getTagList();
   },
-  setup: () => {
+  setup: (props,{emit}) => {
     const receiveMessage=(data)=>{
-      console.log(data);
+      emit('tagClick', data)
     }
     const tabPosition = ref('left');
     const direction = ref('horizontal')
@@ -54,6 +54,7 @@ export default {
   data: () => ({
     list: [],
     tagList: []
+
   }),
   methods: {
     getList() {

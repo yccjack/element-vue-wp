@@ -9,18 +9,19 @@
       <el-row>
         <el-col :xs="0" :sm="3" :md="3" :lg="5">
           <div :style="{position: 'absolute',top:bothPosition+'px' }">
-            <leftList/>
+            <leftList @tagClick="receiveMessage"/>
           </div>
         </el-col>
         <el-col :lg="13" :md="17" :sm="17" :xs="24">
           <midList :user-title="user.title"
                    :user-avatar="user.avatar"
                    :username="user.name"
+                   :tag-change="receiveData"
           />
         </el-col>
         <el-col :xs="0" :sm="4" :md="4" :lg="6">
           <div :style="{position: 'absolute',top:bothPosition+'px' }" class="right-content-outer">
-          <userCard :id="user.id" :avatar="user.avatar"/>
+            <userCard :id="user.id" :avatar="user.avatar"/>
           </div>
         </el-col>
       </el-row>
@@ -34,7 +35,7 @@ import menuPage from "./menuPage"
 import leftList from "./leftList"
 import userCard from "./userCard"
 import midList from "@/components/midList";
-import {ref} from 'vue'
+import {reactive, ref} from 'vue'
 import {onMounted} from "vue";
 
 export default {
@@ -43,13 +44,17 @@ export default {
   },
 
   setup() {
+    const receiveData = ref(0);
+    const receiveMessage = (data) => {
+      receiveData.value = data;
+    }
     const bothPosition = ref(0);
     const scrollContent = () => {
       // scrollTop为显示屏顶部与整个文档顶部间的距离
       let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-      bothPosition.value = scrollTop-80 ;
-      if(scrollTop===0){
-        bothPosition.value = scrollTop ;
+      bothPosition.value = scrollTop - 80;
+      if (scrollTop === 0) {
+        bothPosition.value = scrollTop;
       }
     }
     onMounted(() => {
@@ -58,7 +63,7 @@ export default {
         window.addEventListener("scroll", scrollContent, true);
       }
     });
-    return {bothPosition}
+    return {bothPosition, receiveMessage,receiveData}
   },
 
   data: () => ({
@@ -66,7 +71,7 @@ export default {
       id: 1,
       name: "",
       avatar: "",
-      title: ""
+      title: "",
     },
   }),
   components: {
@@ -131,7 +136,8 @@ export default {
   padding-top: 11px;
   padding-left: 6%;
 }
-.right-content-outer{
+
+.right-content-outer {
   width: 250px;
 }
 </style>
