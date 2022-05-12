@@ -16,6 +16,7 @@
           <midList :user-title="user.title"
                    :user-avatar="user.avatar"
                    :username="user.name"
+                   :user-id="user.id"
                    :tag-change="receiveData"
           />
         </el-col>
@@ -87,12 +88,13 @@ export default {
       });
     },
     getUserInfo() {
-      axios.get("http://localhost:5000/getUserInfo?id=1").then((res) => {
+      axios.get("/getUserInfo?id=1").then((res) => {
         console.log(res)
         this.user.avatar = res.data.avatar;
         this.user.id = res.data.id
         this.user.title = res.data.title
         this.user.name = res.data.name
+        localStorage.setItem("user_id",res.data.id)
         axios.defaults.headers.common['user_id'] = res.data.id;
       })
     },

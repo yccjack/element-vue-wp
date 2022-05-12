@@ -1,6 +1,6 @@
 <template>
   <div class="circle-content">
-    <el-card v-for="o in contentList" :key="o" class="circle-content">
+    <el-card v-for="o in contents" :key="o" class="circle-content">
       <el-row>
         <el-col class="user-content-padding" :span=12>
           <el-col :span=12>
@@ -9,12 +9,12 @@
           <el-col :span=12>
             <div class="circle-content-tip-div">
               <el-col :span=24>
-                <span>{{ o.contentTitle }}</span>
+                <span>{{ o.name }}</span>
               </el-col>
             </div>
             <div class="circle-content-user-info">
               <el-col :span=24>
-                <span>等级称谓</span>
+                <span>{{ o.leverTitle }}</span>
                 <span style="background-color: #fafafa;margin-left: 2px">Lv1</span>
               </el-col>
             </div>
@@ -27,7 +27,7 @@
           <h3>{{ o.contentTitle }}</h3>
           <p>{{ o.content }}</p>
           <el-row>
-            <el-col :span=6 v-for="l in o.contentPic" :key="l">
+            <el-col :span=6 v-for="l in o.pics" :key="l">
               <el-image style="width: 120px; height: 100px" :src="l" :fit="contain"/>
             </el-col>
           </el-row>
@@ -35,13 +35,13 @@
         <el-col :span=12>
           <div style="margin-top: 15px">
             <el-radio-group v-model="radios" size="small">
-              <el-radio-button :label="0">
+              <el-radio-button :label="o.id" @click.prevent="like($event,o.id)">
                 <el-icon :size="10">
                   <CaretTop/>
                 </el-icon>
                 赞{{ o.likeCount }}
               </el-radio-button>
-              <el-radio-button :label="1">
+              <el-radio-button :label="unlikeLabel(o.id)" @click="unlike($event,o.id)">
                 <el-icon :size="10">
                   <CaretBottom/>
                 </el-icon>
@@ -61,61 +61,50 @@
 import {ref} from 'vue'
 import axios from "axios";
 
-
 export default {
   props: {
-    tagChange: {
-      type: [String, Number],
-      default: 0
-    },
-    pageSize: {
-      type: [String, Number],
-      default: 10
+    contents:{
+      default: [{
+        "id": 0,
+        "contentTitle": "",
+        "content": "",
+        "contentPic": '',
+        "pics":[],
+        "talk": 0,
+        "userAva": "",
+        "likeCount": 0,
+        "name": '',
+        "leverTitle": ''
+      }]
     }
   },
-  created() {
-    this.getContent(10);
-
-  },
   name: "circleContent",
-  data: () => ({
-    receiveTag: 0,
-    contentList: [{
-      "id": 0,
-      "contentTitle": "",
-      "content": "",
-      "contentPic": [],
-      "talk": 0,
-      "userAva": "",
-      "likeCount": 0
-    }],
-  }),
   methods: {
     popoverClick(id) {
       console.log(id)
     },
-    getContent(type) {
-      axios.get("/getCircleContent?type=" + type).then((res) => {
-        this.contentList = res.data
+    unlikeLabel(id){
+      return "1"+","+id
+    },
+    like(e,id){
+      if (e.target.tagName === 'INPUT') return
+      axios.get("/like?type=1&id="+id).then((res)=>{
+        console.log(res.data)
+      })
+    },
+    unlike(e,id){
+      if (e.target.tagName === 'INPUT') return
+      axios.get("/like?type=0&id="+id).then((res)=>{
+        console.log(res.data)
       })
     }
   },
   setup() {
+    axios.defaults.headers.common['user_id'] = localStorage.getItem("user_id");
     const radios = ref(-1)
     return {radios}
   },
-  watch: {
-    tagChange: {
-      immediate: true,
-      handler(value) {
-        if (this.tagChangeId !== value) {
-          this.tagChangeId = value
-          this.getContent(2);
-        }
 
-      }
-    }
-  }
 
 }
 </script>

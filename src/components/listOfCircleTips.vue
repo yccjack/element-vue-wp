@@ -15,15 +15,25 @@
         </ul>
       </div>
     </div>
+    <el-divider  style="margin: 4px"/>
+    <div class=" circle-list-content">
+    <el-link class="btn" :click="createCircle()">创建圈子</el-link>
+    </div>
   </el-card>
 </template>
 
 <script>
 
+import axios from "axios";
+
 export default {
   props: ['list'],
   name: "listOfCircleTips",
+  methods:{
+    createCircle(){
 
+    }
+  }
 }
 </script>
 

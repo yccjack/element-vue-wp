@@ -35,7 +35,7 @@
     <p class="circle-desc msy-radius">这是一行提示文字</p>
 
     <div style=" display:inline;">
-      <el-image style="width: 20px; height: 20px" :src="avatar" :fit="fill"/>
+      <el-image style="width: 20px; height: 20px" :src="userAvatar" :fit="fill"/>
       <b>在</b>
       <el-popover
           placement="bottom-start"
@@ -46,17 +46,17 @@
         <div class="msy-popover">
           <span> 可以选择广场、您加入的圈子或者您创建的圈子 </span>
           <div>
-            <el-button v-for="o in popoverId" :key="o.id" @click="popoverContentClick(o.id)">
+            <el-button v-for="o in joinedTopic" :key="o.id" @click="popoverContentClick(o.id)">
               <div class="block avatar">
                 <el-avatar shape="square" :size="17" :src="o.avatar"></el-avatar>
               </div>
-              <span style=" text-align: center;padding-top: 7px"> {{ o.name }}</span>
+              <span style=" text-align: center;padding-top: 7px"> {{ o.introduction }}</span>
             </el-button>
           </div>
         </div>
 
         <template #reference>
-          <el-link type="danger" @click="popoverClick()" class="msy-popover-pop-link"># 广场</el-link>
+          <el-link type="danger" @click="popoverClick()" class="msy-popover-pop-link"># {{currentTopic.introduction}}</el-link>
         </template>
       </el-popover>
       <b style="margin-bottom: 100px">说：</b>
@@ -82,7 +82,7 @@
               <el-button @click="uploadPic()" v-model="ruleForm.uploadPic">
                 {{ ruleForm.uploadPic }}
               </el-button>
-              <el-button :type="ruleForm.subType" @click="submitForm()" v-model="ruleForm.sub"
+              <el-button :type="ruleForm.subType" @click="submitForm()" @submitSuccess="succeed" v-model="ruleForm.sub"
                          :disabled="ruleForm.disabledSub">
                 {{ ruleForm.sub }}
               </el-button>
@@ -99,9 +99,10 @@
 import {reactive} from 'vue'
 import uploadComp from '@/components/uploadComp';
 import axios from "axios";
-import { ElMessage } from 'element-plus'
+import {ElMessage} from 'element-plus'
+
 export default {
-  props: ['userTitle', 'userAvatar', 'username'],
+  props: ['userTitle', 'userAvatar', 'username',"joinedTopic","currentTopic"],
   name: "circleContentTop",
   computed: {
     // 计算属性的 getter
@@ -113,7 +114,8 @@ export default {
     uploadComp
   },
   data: () => ({
-    fileIds:[],
+    succeed: new Date().getTime(),
+    fileIds: [],
     fileList: [],
     uploadAble: false,
     msyPopover: {
@@ -130,29 +132,16 @@ export default {
       subType: '',
       uploadPic: '上传图片'
     }),
-
-    id: 1,
-    name: "李四",
-    avatar: "https://gschaos.club//wp-content/uploads/2021/06/1d5641c0a89db1_avatar.jpg",
     props: {
       expandTrigger: 'hover',
     },
-    popoverId: [
-      {
-        id: 1,
-        avatar: "https://gschaos.club//wp-content/uploads/2021/06/1d5641c0a89db1_avatar.jpg",
-        name: "测试1"
-      }, {
-        id: 2,
-        avatar: "https://gschaos.club//wp-content/uploads/2021/06/1d5641c0a89db1_avatar.jpg",
-        name: "测试2"
-      }, {
-        id: 3,
-        avatar: "https://gschaos.club//wp-content/uploads/2021/06/1d5641c0a89db1_avatar.jpg",
-        name: "测试3"
-      },
-    ]
   }),
+  setup(props, {emit}) {
+    const submitSuccess = (data) => {
+      emit('submitSuccess', data)
+    }
+    return {submitSuccess}
+  },
   methods: {
     popoverContentClick() {
       this.msyPopover.hidden = false;
@@ -164,19 +153,21 @@ export default {
       let formData = new FormData();
       this.fileList.forEach(file => {
         this.fileIds.push(file.id)
-      }),
+      })
       formData.append("title", this.ruleForm.name)
       formData.append("content", this.ruleForm.desc)
       formData.append("pics", this.fileIds)
-      axios.post('http://localhost:5000/saveCircleContent', formData).then((res) => {
-        if(res.status===200){
+      formData.append("type",this.currentTopic.id)
+      axios.post('/saveCircleContent', formData).then((res) => {
+        if (res.status === 200) {
           this.resetForm();
-          this.fileList=[];
+          this.fileList = [];
+          this.submitSuccess(new Date().getTime())
           ElMessage({
             message: '保存成功！',
             type: 'success',
           })
-        }else{
+        } else {
           ElMessage.error('保存失败')
         }
 
