@@ -158,6 +158,9 @@ export default {
       formData.append("content", this.ruleForm.desc)
       formData.append("pics", this.fileIds)
       formData.append("type",this.currentTopic.id)
+      formData.append("user_id",localStorage.getItem("user_id"))
+      console.log(localStorage.getItem("user_id"))
+      axios.defaults.headers.common['user_id'] = localStorage.getItem("user_id");
       axios.post('/saveCircleContent', formData).then((res) => {
         if (res.status === 200) {
           this.resetForm();
