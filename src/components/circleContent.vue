@@ -68,15 +68,15 @@ export default {
     contents: {
       default: [{
         "id": 0,
-        "contentTitle": "",
-        "content": "",
+        "contentTitle": "默认标题",
+        "content": "默认内容",
         "contentPic": '',
         "pics": [],
         "talk": 0,
         "userAva": "",
         "likeCount": 0,
-        "name": '',
-        "leverTitle": ''
+        "name": 'gschaos',
+        "leverTitle": '管理员'
       }]
     }
   },

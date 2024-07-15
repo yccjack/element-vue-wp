@@ -16,13 +16,6 @@
                   placeholder="Please input"
                   class="input-with-select"
               >
-                <template #prepend>
-                  <el-select v-model="Select" placeholder="Select">
-                    <el-option label="Restaurant" value="1"/>
-                    <el-option label="Order No." value="2"/>
-                    <el-option label="Tel" value="3"/>
-                  </el-select>
-                </template>
                 <template #append>
                   <el-button :icon="Search" circle/>
                 </template>

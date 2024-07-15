@@ -108,6 +108,7 @@ export default {
 <style>
 .home-content-max-width {
   max-width: 1500px;
+  min-width: 1100px;
   position: absolute;
   left: 20%;
   top: 10%;
