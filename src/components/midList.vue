@@ -58,26 +58,41 @@ export default {
 
     getTypeStripList() {
       this.$http.get("/config?type=2").then((res) => {
+        if(res.data === ""){
+          return
+        }
         this.strips = res.data;
       })
     },
     getContent(type) {
       this.$http.get("/getCircleContent?type=" + type).then((res) => {
+        if(res.data === ""){
+          return
+        }
         this.contents = res.data
       })
     },
     getCircleContentType() {
       this.$http.get("/config?type=3").then((res) => {
+        if(res.data === ""){
+          return
+        }
         this.types = res.data;
       })
     },
     getUserTopic() {
       this.$http.get("/getUserTopic").then((res) => {
+        if(res.data === ""){
+          return
+        }
         this.userTopic = res.data;
       })
     },
     getCurrentTopicInfo(topic) {
       this.$http.get("/getCurrentTopicInfo?topic=" + topic).then((res) => {
+        if(res.data === ""){
+          return
+        }
         this.currentTopic = res.data;
       })
     }

@@ -62,7 +62,6 @@
 
 <script>
 import {ref} from 'vue'
-import axios from "axios";
 
 export default {
   props: {
@@ -92,7 +91,7 @@ export default {
         this.unlike(e, id)
         return;
       }
-      axios.get("/like?type=1&id=" + id).then((res) => {
+       this.$axios.get("/like?type=1&id=" + id).then((res) => {
         if (res.status === 200) {
           this.current_type.push(id)
           document.getElementById(id).innerText = '赞' + res.data
@@ -102,7 +101,7 @@ export default {
     },
     unlike(e, id) {
       if (e.target.tagName === 'INPUT') return
-      axios.get("/like?type=0&id=" + id).then((res) => {
+      this.$axios.get("/like?type=0&id=" + id).then((res) => {
         if (res.status === 200) {
           this.current_type.map((val, i) => {
             if (val === id) {
@@ -125,7 +124,7 @@ export default {
     }
   },
   setup() {
-    axios.defaults.headers.common['user_id'] = localStorage.getItem("user_id");
+    this.$axios.defaults.headers.common['user_id'] = localStorage.getItem("user_id");
     const radios = ref(-1)
     return {radios}
   },

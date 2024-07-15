@@ -4,22 +4,20 @@ import ElementPlus from 'element-plus';
 import 'element-plus/theme-chalk/index.css';
 import router from "@/routes";
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
-import Axios from "axios";
 import Global from "@/components/common/global";
 import "@/components/common/globalcss.css";
 import {getObjectClass, baseUrl} from "@/components/common/global";
+import axios from "@/components/common/axios"; // 导入Axios实例
 
 const app = createApp(App).use(router).use(ElementPlus)
-
+// 将Axios实例添加到Vue原型链上，方便在组件中调用
+app.config.globalProperties.$axios = axios;
 app.mount('#app')
 
-
-Axios.defaults.baseURL = 'http://localhost:8082/blog/';
-// Axios.defaults.baseURL = 'http:///42.192.209.81:9991/';
 app.config.globalProperties.$uploadUrl = ref('http://42.192.209.81:9991/upload')
 // Axios.defaults.baseURL = 'http://localhost:5000/';
 // app.config.globalProperties.$uploadUrl = ref('http://192.168.1.5:9991/upload')
-app.config.globalProperties.$http = Axios
+app.config.globalProperties.$http = axios
 app.config.globalProperties.$Global = Global
 app.config.globalProperties.$getObjectClass = getObjectClass
 

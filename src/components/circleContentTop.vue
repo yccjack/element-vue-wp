@@ -98,7 +98,6 @@
 <script>
 import {reactive} from 'vue'
 import uploadComp from '@/components/uploadComp';
-import axios from "axios";
 import {ElMessage} from 'element-plus'
 
 export default {
@@ -160,8 +159,8 @@ export default {
       formData.append("type",this.currentTopic.id)
       formData.append("user_id",localStorage.getItem("user_id"))
       console.log(localStorage.getItem("user_id"))
-      axios.defaults.headers.common['user_id'] = localStorage.getItem("user_id");
-      axios.post('/saveCircleContent', formData).then((res) => {
+      this.$axios.defaults.headers.common['user_id'] = localStorage.getItem("user_id");
+      this.$axios.post('/saveCircleContent', formData).then((res) => {
         if (res.status === 200) {
           this.resetForm();
           this.fileList = [];
