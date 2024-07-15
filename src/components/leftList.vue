@@ -1,49 +1,46 @@
 <template>
-  <el-space :size="20"
-            fill
-            wrap
-            :fill-ratio="fillRatio"
-            :direction="direction"
-            style="width: 100%">
-    <el-row>
-      <el-col :span=24>
-        <listOfCircleTips
-            :list="list"/>
-      </el-col>
-      <el-col :span=24>
-        <div style="margin-top: 15px">
+  <el-row>
+    <el-col :span=24>
+      <listOfCircleTips
+          :list="circleTips"/>
+    </el-col>
+    <el-col :span=24>
+      <div style="margin-top: 15px">
         <circleTags
             :list="tagList"
             @tagClick="receiveMessage"
         />
-        </div>
-      </el-col>
-    </el-row>
-  </el-space>
-
-
+      </div>
+    </el-col>
+  </el-row>
 </template>
 
 <script>
 import {ref} from 'vue'
 
-import listOfCircleTips from "./listOfCircleTips"
-import circleTags from "./circleTags"
-import axios from "axios";
+import listOfCircleTips from "./circle/listOfCircleTips"
+import circleTags from "./circle/circleTags"
+
 
 export default {
+  props: {
+    isLogin: {
+      type: Boolean,
+      default: false
+    }
+  },
   created() {
     this.getList();
     this.getTagList();
   },
-  setup: (props,{emit}) => {
-    const receiveMessage=(data)=>{
+  setup: (props, {emit}) => {
+    const receiveMessage = (data) => {
       emit('tagClick', data)
     }
     const tabPosition = ref('left');
     const direction = ref('horizontal')
     const fillRatio = ref(30)
-    return {tabPosition, direction, fillRatio,receiveMessage};
+    return {tabPosition, direction, fillRatio, receiveMessage};
   },
 
   name: "leftList",
@@ -52,20 +49,18 @@ export default {
     circleTags
   },
   data: () => ({
-    list: [],
+    circleTips: [],
     tagList: []
 
   }),
   methods: {
     getList() {
-      axios.get("/config?type=1").then((res) => {
-        console.log(res)
-        this.list = res.data;
+      this.$http.get("/config?type=1").then((res) => {
+        this.circleTips = res.data;
       })
     },
     getTagList() {
-      axios.get("/config?type=4").then((res) => {
-        console.log(res)
+      this.$http.get("/config?type=4").then((res) => {
         this.tagList = res.data;
       })
     },
@@ -76,7 +71,6 @@ export default {
 
 <style>
 .circle-desc {
-  font-size: 12px;
   padding: 10px 20px;
   position: relative;
   min-height: 37px;
@@ -88,16 +82,8 @@ export default {
   border-radius: 4px;
 }
 
-.circle-content-tip-div {
-  font-size: 14px;
-  padding: 0;
-  text-align: left;
-  margin-left: 10px;
-  margin-top: 5px;
-}
-
 .text {
-  font-size: 14px;
+  font-size:calc(100vw* 14 /1920);
 }
 
 .item {
@@ -105,7 +91,7 @@ export default {
 }
 
 .circle-list-content {
-  font-size: 14px;
+  font-size:calc(100vw* 14 /1920);
   padding: 0;
   text-align: left;
   margin-left: 10px;

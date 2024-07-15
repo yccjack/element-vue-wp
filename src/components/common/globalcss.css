@@ -1,0 +1,90 @@
+._10_size_1920 {
+    font-size: calc(100vw * 10 / 1920);
+}
+
+._10_size_800 {
+    font-size: calc(100vw * 10*1.5 / 768);
+}
+
+._10_size_3840 {
+    font-size: calc(100vw * 10 / 3840);
+}
+
+._10_size_2160 {
+    font-size: calc(100vw * 10 / 2160);
+}
+
+._14_size_1920 {
+    font-size: calc(100vw * 14 / 1920);
+}
+
+._14_size_800 {
+    font-size: calc(100vw * 14*1.5 / 768);
+}
+
+._14_size_3840 {
+    font-size: calc(100vw * 14 / 3840);
+}
+
+._14_size_2160 {
+    font-size: calc(100vw * 14 / 2160);
+}
+
+._20_size_1920 {
+    font-size: calc(100vw * 20 / 1920);
+}
+
+._20_size_800 {
+    font-size: calc(100vw * 20*1.5 / 768);
+}
+
+._20_size_3840 {
+    font-size: calc(100vw * 20 / 3840);
+}
+
+._20_size_2160 {
+    font-size: calc(100vw * 20 / 2160);
+}
+
+.circle-content-tip-div {
+    padding: 0;
+    text-align: left;
+    margin-left: 10%;
+    margin-top: 10px;
+
+}
+
+.circle-content-user-info {
+    padding: 0;
+    text-align: left;
+    margin-left: 10px;
+    margin-top: 5px;
+}
+a {
+    text-decoration: none;
+    color: #000;
+}
+
+.btn {
+    margin: 0;
+    padding: 0;
+    border: none;
+    background-color: transparent;
+}
+
+
+.msy_left_font_{
+    padding: 0;
+    text-align: left;
+    margin-left: 10px;
+}
+.global_margin_left_{
+    margin-left: 10px;
+}
+.global_margin_top_{
+    margin-top: 10px;
+}
+
+.user-content-padding {
+    padding: 15px;
+}

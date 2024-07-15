@@ -1,50 +1,48 @@
 <template>
-  <el-container class="home-content-max-width">
-    <el-header height="64px">
-      <menuPage
-          :avatar="user.avatar"
-      />
-    </el-header>
-    <el-main>
-      <el-row>
-        <el-col :xs="0" :sm="3" :md="3" :lg="5">
-          <div :style="{position: 'absolute',top:bothPosition+'px' }">
-            <leftList @tagClick="receiveMessage"/>
-          </div>
-        </el-col>
-        <el-col :lg="13" :md="17" :sm="17" :xs="24">
-          <midList :user-title="user.title"
-                   :user-avatar="user.avatar"
-                   :username="user.name"
-                   :user-id="user.id"
-                   :tag-change="receiveData"
-          />
-        </el-col>
-        <el-col :xs="0" :sm="4" :md="4" :lg="6">
-          <div :style="{position: 'absolute',top:bothPosition+'px' }" class="right-content-outer">
-            <userCard :id="user.id" :avatar="user.avatar"/>
-          </div>
-        </el-col>
-      </el-row>
-    </el-main>
-  </el-container>
+  <el-row>
+    <el-col :xs="0" :sm="0" :md="3" :lg="5" :lx="5">
+      <div :style="{position: 'absolute',top:bothPosition+'px' }">
+        <leftList @tagClick="receiveMessage" :is-login="isLogin"/>
+      </div>
+    </el-col>
+    <el-col :xs="24" :sm="24" :md="17" :lg="13" :lx="13">
+      <midList :tag-change="receiveData" :is-login="isLogin" :avatar="avatarLocal"/>
+    </el-col>
+    <el-col :xs="0" :sm="0" :md="3" :lg="6" :lx="6">
+      <div :style="{position: 'absolute',top:bothPosition+'px' }" class="right-content-outer">
+        <userCard :is-login="isLogin" :avatar="avatarLocal"/>
+      </div>
+    </el-col>
+  </el-row>
 </template>
 
 <script>
-import axios from "axios";
-import menuPage from "./menuPage"
 import leftList from "./leftList"
 import userCard from "./userCard"
 import midList from "@/components/midList";
-import {reactive, ref} from 'vue'
+import {getCurrentInstance, ref, watch} from 'vue'
 import {onMounted} from "vue";
 
 export default {
-  created() {
-    this.getUserInfo()
-  },
 
-  setup() {
+  props: {
+    avatar: {
+      type: String
+    }
+  },
+  setup(props) {
+    let {proxy} = getCurrentInstance()
+    const isLogin = ref(false)
+    const avatarLocal = ref(props.avatar)
+    if (proxy.$Global.login) {
+      isLogin.value = true
+    }
+    watch(
+        () => props.avatar,
+        async newId => {
+          avatarLocal.value = newId
+        }
+    )
     const receiveData = ref(0);
     const receiveMessage = (data) => {
       receiveData.value = data;
@@ -64,42 +62,35 @@ export default {
         window.addEventListener("scroll", scrollContent, true);
       }
     });
-    return {bothPosition, receiveMessage, receiveData}
+    return {bothPosition, receiveMessage, receiveData, isLogin,avatarLocal}
   },
-
   data: () => ({
     user: {
-      id: 1,
-      name: "",
-      avatar: "",
-      title: "",
+      type: Object,
+      default: {
+        id: 1,
+        name: "",
+        avatar: "",
+        title: "",
+      }
     },
+    circle: {
+      type: Object,
+      default: {
+        id: 1,
+        title: "",
+        name: "",
+      }
+    }
   }),
   components: {
-    menuPage,
     leftList,
     midList,
     userCard
   },
   methods: {
-    toDetail(e) {
-      this.$router.push({
-        path: `/details/${e}`,
-      });
-    },
-    getUserInfo() {
-      axios.get("/getUserInfo?id=1").then((res) => {
-        console.log(res)
-        this.user.avatar = res.data.avatar;
-        this.user.id = res.data.id
-        this.user.title = res.data.title
-        this.user.name = res.data.name
-        localStorage.setItem("user_id",res.data.id)
-        axios.defaults.headers.common['user_id'] = res.data.id;
-      })
-    },
     toHome(e) {
-      if ("1" == e) {
+      if ("1" === e) {
         this.$router.push({
           path: `/`,
         });
@@ -121,15 +112,6 @@ export default {
 
 <style scoped>
 
-.home-content-max-width {
-  width: 100%;
-  max-width: 1080px;
-  align-content: center;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 0;
-  text-align: center;
-}
 
 .input-with-select .el-input-group__prepend {
   background-color: var(--el-fill-color-blank);

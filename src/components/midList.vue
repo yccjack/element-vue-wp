@@ -2,12 +2,11 @@
   <el-row class="circle-mid-outer text item ">
     <el-col :span=24>
       <circleContentTop
-          :user-title="userTitle"
-          :user-avatar="userAvatar"
-          :username="username"
+          :circle='circle'
           :joined-topic="userTopic"
           :current-topic="currentTopic"
           @submitSuccess="receiveMessage"
+          :avatar="avatar"
       />
     </el-col>
     <el-col :span=24 style="margin-top: 2%">
@@ -23,22 +22,24 @@
 </template>
 
 <script>
-import circleContentTop from "@/components/circleContentTop";
-import circleContentTypeStrip from "@/components/circleContentTypeStrip";
-import circleContent from "@/components/circleContent";
-import axios from "axios";
+import circleContentTop from "@/components/circle/circleContentTop";
+import circleContentTypeStrip from "@/components/circle/circleContentTypeStrip";
+import circleContent from "@/components/circle/circleContent";
 import {ref} from "vue";
 
 export default {
-
+  activated() {
+    this.getContent(this.tagChangeId);
+  },
   created() {
     this.getTypeStripList();
-    this.getCircleContent();
-    this.getContent(this.tagChangeId);
-    this.getUserTopic(this.userId);
+    this.getCircleContentType();
+    if (this.$Global.login) {
+      this.getUserTopic();
+    }
     this.getCurrentTopicInfo(this.tagChangeId);
   },
-  props: ['userTitle', 'userAvatar', 'username', 'tagChange', "userId"],
+  props: ['tagChange', 'circle', 'isLogin','avatar'],
   name: "midList",
   data: () => ({
     strips: [],
@@ -54,36 +55,35 @@ export default {
     circleContent
   },
   methods: {
+
     getTypeStripList() {
-      axios.get("/config?type=2").then((res) => {
+      this.$http.get("/config?type=2").then((res) => {
         this.strips = res.data;
       })
     },
     getContent(type) {
-      axios.get("/getCircleContent?type=" + type).then((res) => {
+      this.$http.get("/getCircleContent?type=" + type).then((res) => {
         this.contents = res.data
       })
     },
-    getCircleContent(type) {
-      axios.get("/config?type=3" + type).then((res) => {
+    getCircleContentType() {
+      this.$http.get("/config?type=3").then((res) => {
         this.types = res.data;
       })
     },
-    getUserTopic(userId) {
-      axios.get("/getUserTopic?userId=" + userId).then((res) => {
+    getUserTopic() {
+      this.$http.get("/getUserTopic").then((res) => {
         this.userTopic = res.data;
       })
     },
     getCurrentTopicInfo(topic) {
-      axios.get("/getCurrentTopicInfo?topic=" + topic).then((res) => {
-        console.log(res.data)
+      this.$http.get("/getCurrentTopicInfo?topic=" + topic).then((res) => {
         this.currentTopic = res.data;
       })
     }
   }, setup() {
     const receiveData = ref(0);
     const receiveMessage = (data) => {
-      console.log(data)
       receiveData.value = data;
     }
     return {receiveMessage, receiveData}
@@ -93,20 +93,20 @@ export default {
       immediate: true,
       handler(value) {
         if (this.tagChangeId !== value) {
-          console.log(value)
           if (0 === value) {
             return
           }
           this.tagChangeId = value
           this.getContent(value);
+          this.getCurrentTopicInfo(value)
         }
       }
     },
     receiveData: {
       immediate: true,
       handler(value) {
-        console.log(value)
-        if(0 === value){
+
+        if (0 === value) {
           return
         }
         this.getContent(this.tagChangeId);
@@ -120,7 +120,7 @@ export default {
 
 <style scoped>
 .circle-mid-outer {
-  font-size: 14px;
+  font-size:calc(100vw* 14 /1920);
   padding: 0;
   text-align: left;
 
